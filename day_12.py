@@ -1,107 +1,92 @@
-from typing import Union
+# Day 12: Sets and Set Operations
 
-# union, OR
-#a = ['bat', 'cat', 'dog', 'porpoise', 'whale', 'ant', 'bear']
-#b = ['bat', 'cat', 'dog', 'eagle', 'shark', 'anteater', 'gull']
-#c = ['porpoise', 'platypus', 'crane', 'hermit crab', 'shark', 'anteater', 'gull']
-#
-#
-#def union(set1, set2):
-#    set_union = set1.copy()
-#    for item in set2:
-#        if item not in set_union:
-#            set_union.append(item)
-#    return set_union
-#print(union(union(a, b), c))
+# Union function
+def union(set1, set2):
+    set_union = set1.copy()
+    for item in set2:
+        if item not in set_union:
+            set_union.add(item)
+    return set_union
 
-#AND INTERESECTION
-#a = ['bat', 'cat', 'dog', 'porpoise', 'whale', 'ant', 'bear']
-#b = ['bat', 'cat', 'dog', 'eagle', 'shark', 'anteater', 'gull']
-#c = ['porpoise', 'platypus', 'crane', 'hermit crab', 'shark', 'anteater', 'gull']
-#
-#def intersection(set1, set2):
-#    set_intersect = []
-#    for item in set1:
-#        if item in set2:
-#            set_intersect.append(item)
-#    return set_intersect
-#print(intersection(a, b)) # ['bat', 'cat', 'dog']
+# Intersection function
+def intersection(set1, set2):
+    set_intersect = set()
+    for item in set1:
+        if item in set2:
+            set_intersect.add(item)
+    return set_intersect
 
-#a = ['bat', 'cat', 'dog', 'porpoise', 'whale', 'ant', 'bear']
-#b = ['bat', 'cat', 'dog', 'eagle', 'porpoise', 'shark', 'anteater', 'gull']
-#c = ['porpoise', 'platypus', 'crane', 'hermit crab', 'shark', 'anteater', 'gull']
-#def intersection_mult(*mult_sets):
-#    set_intersect = []
-#    if len(mult_sets) > 1 and len(mult_sets[0]) > 0:
-#        for item in mult_sets[0]:
-#            is_member = True
-#            for set_ in mult_sets[1:]:
-#                if item not in set_:
-#                    is_member = False
-#                    break
-#            if is_member:
-#                set_intersect.append(item)
-#    return set_intersect
-#print(intersection_mult(a, b, c))
+# Multiple sets intersection function
+def intersection_mult(*mult_sets):
+    if len(mult_sets) > 1 and len(mult_sets[0]) > 0:
+        set_intersect = mult_sets[0].copy()
+        for item in mult_sets[0]:
+            for set_ in mult_sets[1:]:
+                if item not in set_:
+                    set_intersect.remove(item)
+        return set_intersect
+    return set()
 
-#a = ['bat', 'cat', 'dog', 'porpoise', 'whale', 'ant', 'bear']
-#b = ['bat', 'cat', 'dog', 'eagle', 'porpoise', 'shark', 'anteater', 'gull']
-#c = ['porpoise', 'platypus', 'crane', 'hermit crab', 'shark', 'anteater', 'gull']
-#def difference(set1, set2):
-#    set_difference = []
-#    for item in set1:
-#        if item not in set2:
-#            set_difference.append(item)
-#    return set_difference
-#print(difference(a, b))
+# Difference function
+def difference(set1, set2):
+    set_difference = set()
+    for item in set1:
+        if item not in set2:
+            set_difference.add(item)
+    return set_difference
 
+# Sample Space function using union of multiple sets
+def union_mult_sets(*mult_sets):
+    sample_space = set()
+    for set_ in mult_sets:
+        sample_space = union(sample_space, set_)
+    return sample_space
 
-#sample_space = union_mult_sets(a, b, c, ['elephant', 'hippo', 'nutria'])
-# print(sample_space)
-#def complement(sample_space, set1):
-#    return difference(sample_space, set1)
-#print(complement(sample_space, a))
+# Complement function using difference between sample space and set1
+def complement(sample_space, set1):
+    return difference(sample_space, set1)
 
+# Test sets for set operations
+a = {'bat', 'cat', 'dog', 'porpoise', 'whale', 'ant', 'bear'}
+b = {'bat', 'cat', 'dog', 'eagle', 'shark', 'anteater', 'gull'}
+c = {'porpoise', 'platypus', 'crane', 'hermit crab', 'shark', 'anteater', 'gull'}
 
+# Testing union function
+print("Union:", union(union(a, b), c))
 
-#four_sided = [1,2,3,4]
-#coin = ['H', 'T']
-#sample_space = []
-#for roll in four_sided:
-#    for flip1 in coin:
-#        for flip2 in coin:
-#            sample_space.append([roll, flip1, flip2])
-## for outcome in sample_space:
-##     print(outcome)
-#A = []
-#for outcome in sample_space:
-#    if outcome[0] == 1:
-#        A.append(outcome)
-## print(A)
-#print()
-#B = []
-#for outcome in sample_space:
-#    if outcome.count('H') >= 1:
-#        B.append(outcome)
-## print(B)
-#print(len(sample_space))
-#print(len(union(A, B)))
+# Testing intersection function
+print("Intersection:", intersection(a, b)) # Output: {'bat', 'cat', 'dog'}
+
+# Testing multiple sets intersection function
+print("Multiple Sets Intersection:", intersection_mult(a, b, c))
+
+# Testing difference function
+print("Difference:", difference(a, b))
+
+# Testing sample space using union of multiple sets
+sample_space = union_mult_sets(a, b, c, {'elephant', 'hippo', 'nutria'})
+print("Sample Space:", sample_space)
+
+# Testing complement function
+print("Complement:", complement(sample_space, a))
 
 
+# Testing set properties
+set1 = {'a', 'b', 'c'}
+set2 = {'c', 'd', 'e'}
+set3 = {'a', 'e', 'f'}
 
-#set1 = {'a', 'b', 'c'}
-#set2 = {'c', 'd', 'e'}
-#set3 = {'a', 'e', 'f'}
-## # commutative
-## print(set1.union(set2) == set2.union(set1))
-## print(set1.intersection(set2) == set2.intersection(set1))
-#a = True
-#b = False
-#c = True
-## print( (a or b) == (b or a) )
-## print( (a and b) == (b and a) )
-## associative
-#print(set1.union(set2).union(set3) == set3.union(set2).union(set1))
-#print(set1.intersection(set2).intersection(set3) == set3.intersection(set2).intersection(set1))
-#print( ((a or b) or c) == (a or (b or c)) )
-#print( ((a and b) and c) == (a and (b and c)) )
+# Testing commutative property
+print(set1.union(set2) == set2.union(set1))
+print(set1.intersection(set2) == set2.intersection(set1))
+
+# Testing associative property
+a = True
+b = False
+c = True
+print((a or b) == (b or a))
+print((a and b) == (b and a))
+print(set1.union(set2).union(set3) == set3.union(set2).union(set1))
+print(set1.intersection(set2).intersection(set3) == set3.intersection(set2).intersection(set1))
+print(((a or b) or c) == (a or (b or c)))
+print(((a and b) and c) == (a and (b and c)))
